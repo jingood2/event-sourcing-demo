@@ -1,5 +1,6 @@
 package com.example.eventsourcingdemo.controller;
 
+import com.example.eventsourcingdemo.entities.AccountQueryEntity;
 import com.example.eventsourcingdemo.services.AccountQueryService;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,11 @@ public class AccountQueryController {
 
     public AccountQueryController(AccountQueryService accountQueryService) {
         this.accountQueryService = accountQueryService;
+    }
+
+    @GetMapping("/{accountNumber}")
+    public AccountQueryEntity getAccount(@PathVariable(value = "accountNumber") String accountNumber){
+        return accountQueryService.getAccount(accountNumber);
     }
 
     @GetMapping("/{accountNumber}/events")

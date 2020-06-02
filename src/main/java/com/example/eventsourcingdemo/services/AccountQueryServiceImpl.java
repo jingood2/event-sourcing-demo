@@ -1,5 +1,7 @@
 package com.example.eventsourcingdemo.services;
 
+import com.example.eventsourcingdemo.entities.AccountQueryEntity;
+import com.example.eventsourcingdemo.repository.AccountRepository;
 import org.axonframework.eventsourcing.eventstore.EventStore;
 import org.springframework.stereotype.Service;
 
@@ -11,13 +13,20 @@ public class AccountQueryServiceImpl implements AccountQueryService {
 
     private final EventStore eventStore;
 
-    public AccountQueryServiceImpl(EventStore eventStore) {
+    private final AccountRepository accountRepository;
+
+    public AccountQueryServiceImpl(EventStore eventStore, AccountRepository accountRepository) {
         this.eventStore = eventStore;
+        this.accountRepository = accountRepository;
     }
 
     @Override
     public List<Object> listEventsForAccount(String accountNumber) {
-        return eventStore.readEvents(accountNumber).asStream()
-                .map(s -> s.getPayload()).collect(Collectors.toList());
+        return eventStore.readEvents(accountNumber).asStream().map( s -> s.getPayload()).collect(Collectors.toList());
+    }
+
+    @Override
+    public AccountQueryEntity getAccount(String accountNumber) {
+        return accountRepository.findById(accountNumber).get();
     }
 }

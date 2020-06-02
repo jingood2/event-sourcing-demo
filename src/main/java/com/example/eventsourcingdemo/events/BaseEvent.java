@@ -1,6 +1,6 @@
 package com.example.eventsourcingdemo.events;
 
-import org.axonframework.commandhandling.model.AggregateIdentifier;
+import org.axonframework.modelling.command.AggregateIdentifier;
 
 public class BaseEvent<T> {
 
